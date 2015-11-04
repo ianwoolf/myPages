@@ -5,17 +5,19 @@ title = "golang 写文件的4中方式"
 
 +++
 	package main
+
 	import (
-		 "bufio"  //缓存IO
+		"bufio"  //缓存IO
  		"fmt"
  		"io/ioutil" //io 工具包
  		"io"
  		"os"
 	)
+
 	func check(e error) {
  		if e != nil {
  		panic(e)
- 	}
+ 		}
 	}
 
 	func checkFileIsExist(filename string) (bool) {
@@ -24,7 +26,7 @@ title = "golang 写文件的4中方式"
   			exist = false;
  		}
  		return exist;
-		}
+	}
 
 	func main() {
  		var wireteString = "测试n"
@@ -51,20 +53,20 @@ title = "golang 写文件的4中方式"
  		check(err2)
  		
  	//  第三种方式:  使用 File(Write,WriteString) 写入文件  
- 	f, err3 := os.Create("./output3.txt")  //创建文件
- 	check(err3)
- 	defer f.Close()
- 	n2, err3 := f.Write(d1)  //写入文件(字节数组)
- 	check(err3)
- 	fmt.Printf("写入 %d 个字节n", n2)
- 	n3, err3 := f.WriteString("writesn") //写入文件(字节数组)
- 	fmt.Printf("写入 %d 个字节n", n3)
- 	f.Sync()
- 	
+ 		f, err3 := os.Create("./output3.txt")  //创建文件
+ 		check(err3)
+ 		defer f.Close()
+ 		n2, err3 := f.Write(d1)  //写入文件(字节数组)
+ 		check(err3)
+ 		fmt.Printf("写入 %d 个字节n", n2)
+ 		n3, err3 := f.WriteString("writesn") //写入文件(字节数组)
+ 		fmt.Printf("写入 %d 个字节n", n3)
+ 		f.Sync()
+ 		
 	// 第四种方式:  使用 bufio.NewWriter 写入文件 
-	w := bufio.NewWriter(f)  //创建新的 Writer 对象
-	n4, err3 := w.WriteString("bufferedn")
-	fmt.Printf("写入 %d 个字节n", n4)
-	w.Flush()
-	f.Close()
+		w := bufio.NewWriter(f)  //创建新的 Writer 对象
+		n4, err3 := w.WriteString("bufferedn")
+		fmt.Printf("写入 %d 个字节n", n4)
+		w.Flush()
+		f.Close()
 	}
