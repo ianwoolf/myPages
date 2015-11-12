@@ -4,9 +4,10 @@ draft = true
 title = "制作带有ssh的docker镜像,转,小修改并亲测"
 
 +++
-参考： http://dockerpool.com/article/1414384697
 
-##  手动搞，然后commit（最爱）
+##  手动搞，然后commit
+**个人最爱的方式,我喜欢手动搞出来,然后用dockerfile搞启动命令/环境/网络等**
+
 步骤如下：
 
 首先，使用我们最熟悉的 「-ti」参数来创建一个容器(我之前的小黑是14.10的，所以没用04的，直接用的lastext):`$ sudo docker run -ti ubuntu  /bin/bash`
@@ -69,7 +70,7 @@ title = "制作带有ssh的docker镜像,转,小修改并亲测"
 		sshd                ubuntu              7aef2cd95fd0        10 seconds ago      255.2 MB
 		ubuntu              latest              ba5877dc9bec        3 months ago        192.7 MB
 
-### 我们来验证，启动一个container，连docker主机
+**我们来验证，启动一个container，连docker主机**
 
 
 	$ sudo docker  run -p 100:22  -d sshd:ubuntu /run.sh  #启动容器，并映射端口 100 -->22
@@ -86,4 +87,82 @@ title = "制作带有ssh的docker镜像,转,小修改并亲测"
 
 run.sh 脚本内容
 
-### todo: dockerfile搞
+## dockerfile搞
+首先，创建一个叫做 sshd_ubuntu 的文件夹，用于存放我们的 Dockerfile 、脚本文件、以及其他文件。
+
+	$ mkdir sshd_ubuntu
+	$ cd sshd_ubuntu/
+	$ touch Dockerfile run.sh
+	$ ls
+		Dockerfile  run.sh
+
+编写 run.sh(启动sshd，同上) 和 authorized_keys（登陆公钥，根据自己情况选择）`$ cat ~/.ssh/id_rsa.pub >authorized_keys`
+
+**重点来了，下面是 Dockerfile 的内容**
+
+	FROM ubuntu:latest  #设置继承镜像
+
+
+	MAINTAINER dwj_zz@163.com #作者的信息
+	#更改源，根据自己需求，我改的网易的源
+	RUN echo "deb http://mirrors.163.com/ubuntu/ trusty main restricted universe multiverse" > /etc/apt/sources.list
+	RUN echo "deb http://mirrors.163.com/ubuntu/ trusty-security main restricted universe multiverse" >> /etc/apt/sources.list
+	RUN echo "deb http://mirrors.163.com/ubuntu/ trusty-updates main restricted universe multiverse" >> /etc/apt/sources.list
+	RUN echo "deb http://mirrors.163.com/ubuntu/ trusty-proposed main restricted universe multiverse" >> /etc/apt/sources.list
+	RUN echo "deb http://mirrors.163.com/ubuntu/ trusty-backports main restricted universe multiverse" >> /etc/apt/sources.list
+	RUN apt-get update
+
+	#安装 ssh 服务
+	RUN apt-get install -y openssh-server
+	RUN mkdir -p /var/run/sshd
+	RUN mkdir -p /root/.ssh
+	#取消pam限制
+	RUN sed -ri 's/session    required     pam_loginuid.so/#session    required     pam_loginuid.so/g' /etc/pam.d/sshd
+
+	#复制配置文件到相应位置,并赋予脚本可执行权限
+	ADD authorized_keys /root/.ssh/authorized_keys
+	ADD run.sh /run.sh
+	RUN chmod 755 /run.sh
+
+	#开放端口
+	EXPOSE 22
+
+	#设置自启动命令
+	CMD ["/run.sh"]
+
+创建镜像
+
+	$ sudo docker build -t sshd:dockerfile .
+		Sending build context to Docker daemon 5.632 kB
+		Sending build context to Docker daemon
+		Step 0 : FROM ubuntu:latest
+		 ---> ba5877dc9bec
+		Step 1 : MAINTAINER dwj_zz@163.com
+		 ---> Running in 188d74d02d35
+		 ---> 473eb019b331
+		Removing intermediate container 188d74d02d35
+		# 使用 Dockerfile 创建，他会帮你删除中间无用的文件层
+		Step 2 : RUN echo "deb http://mirrors.163.com/ubuntu/ trusty main restricted universe multiverse" > /etc/apt/sources.list
+		 ---> Running in f52e2a583db5
+		 ---> bd4ceef2ee19
+		Removing intermediate container f52e2a583db5
+		Step 3 : RUN echo "deb http://mirrors.163.com/ubuntu/ trusty-security main restricted universe multiverse" >> /etc/apt/sources.list
+	......
+		Step 15 : EXPOSE 22
+		 ---> Running in 660a57c41b25
+		 ---> 3ff9e88c4847
+		Removing intermediate container 660a57c41b25
+		Step 16 : CMD /run.sh
+ 		---> Running in 5a0d838b6759
+ 		---> 532f12181013
+		Removing intermediate container 5a0d838b6759
+		Successfully built 532f12181013
+最后，返回告诉我们创建成功，镜像 id 号是532f12181013，让我们来查看下
+
+	$ docker images
+	REPOSITORY          TAG                 IMAGE ID            CREATED             VIRTUAL 	SIZE
+	sshd                dockerfile          532f12181013        7 seconds ago       242 MB
+	sshd                ubantu              08fdb11b77b5        About an hour ago   229.9 MB
+最后，测试镜像，运行容器。同上，不在赘述。
+**注意到，后面跟上面手动搞镜像启动命令不一样，不需要在输入命令‘/run.sh’了，因为已经在 Dockerfile 中定义了自启动命令。**
+
