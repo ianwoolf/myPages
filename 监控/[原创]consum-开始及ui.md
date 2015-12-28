@@ -30,7 +30,10 @@ title = "【原创】consul开始及ui"
               }
         }
 
+我的vps: http://45.32.21.60/ui/(还没上域名)
+
 参考:
+
 https://www.consul.io/docs/upgrading.html
 https://www.consul.io/intro/getting-started/ui.html
 http://txt.fliglio.com/2014/05/encapsulated-services-with-consul-and-confd/
