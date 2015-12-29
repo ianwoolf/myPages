@@ -30,11 +30,14 @@ title = "【原创】consul开始及ui"
               }
         }
 
-我搭了一个简单的例子，正在学习（[我的例子](http://45.32.21.60/ui/)） 。（暂时还没上域名，凑合用吧
+我搭了一个简单的例子，**正在学习**（[我的例子](http://45.32.21.60/ui/)） 。暂时还没上域名，凑合用
 
 参考:
 
-https://www.consul.io/docs/upgrading.html
-https://www.consul.io/intro/getting-started/ui.html
-http://txt.fliglio.com/2014/05/encapsulated-services-with-consul-and-confd/
-https://blog.coding.net/blog/intro-consul
+- https://www.consul.io/docs/upgrading.html
+
+- https://www.consul.io/intro/getting-started/ui.html
+
+- http://txt.fliglio.com/2014/05/encapsulated-services-with-consul-and-confd/
+
+- https://blog.coding.net/blog/intro-consul
