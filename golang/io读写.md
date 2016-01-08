@@ -17,6 +17,7 @@ title = "【原创】golang 的io读写"
 	line := string(p)
 
 ## 第三种读： ioutil
+        // 这种方法会一直读到EOF，注意   管道进去或者读文件
 	readb, _ := ioutil.ReadAll(os.Stdin)
 	fmt.Println("the third read, ioutil.Readall() result:", string(readb))
 
