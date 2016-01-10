@@ -4,7 +4,7 @@ draft = true
 title = "【原创】reflect func in golang (get func by name)"
 
 +++
-####楼主补习下知识
+#### 本屌丝先补习下知识
 
     type Type interface {
 		......
@@ -157,7 +157,8 @@ fork代码请移步，https://github.com/ianwoolf/golib/tree/master/funMap。欢
     FuncOf returns the function type with the given argument and result types. For example if k represents int and e represents string, FuncOf([]Type{k}, []Type{e}, false) represents     func(int) string.
     The variadic argument controls whether the function is variadic. FuncOf panics if the     in[len(in)-1] does not represent a slice and variadic is true.
 
-####### 你也许想看的东西
+###### 你也许想看的东西
+
 [The Go Programming Language Specification:Interface types](https://golang.org/ref/spec#Interface_types)
 
 [Laws of reflection](http://blog.golang.org/laws-of-reflection)
