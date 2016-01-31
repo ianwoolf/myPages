@@ -38,6 +38,8 @@ ETCD_INITIAL_CLUSTER_STATE=new
     -data-dir=/data/etcd/
     (-initial-cluster-state new/existing)
 
+这里的-initial-cluster-state，用来使用etcdctl向已启动集群中添加member。具体请看后面博文，这里不啰嗦了，反正新建启动的时候是new，加入member的时候是existing。
+
 ###### error case:
 - 如果先-data-dir启动，然后无-data-dir重启，会panic
 `panic: tocommit(2349) is out of range [lastIndex(2324)]. Was the raft log corrupted, truncated, or lost`
