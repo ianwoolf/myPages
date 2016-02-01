@@ -57,10 +57,23 @@ title = "【原创】etcdctl"
 
 ### 常用命令
 #### 数据命令
-    root@6c99219fcb5d:~# etcdctl  ls /
-    root@6c99219fcb5d:~# etcdctl mkdir /test
-    root@6c99219fcb5d:~# etcdctl ls /
-    /test
+
+    $ etcdctl  ls /
+    $ etcdctl mkdir /test
+    $ etcdctl ls /
+    $ etcdctl mk /test/data content
+    $ etcdctl ls / --recursive
+    $ etcdctl get /test/data
+    $ etcdctl set /test/data content2
+    $ etcdctl update /test/data content4   
+    $ etcdctl rm /a/b/c  #删key
+    $ etcdctl rm /a --recursive # recursively to remove directory and every subdirectory
+    $ etcdctl rmdir /x/y/z  #remove only an empty key or directory
+#### watch 命令
+
+    $ etcdctl watch /test2
+    # 目录不会有反应  删除目录/test2之后mk一个会有反应
+    $ etcdctl watch --recursive /example
 
 #### 集群命令
 ##### 参数
