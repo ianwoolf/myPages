@@ -60,7 +60,7 @@ title = "【原创】etcdctl"
 
     $ etcdctl  ls /
     $ etcdctl mkdir /test
-    $ etcdctl ls /
+    $ etcdctl ls / --recursive
     $ etcdctl mk /test/data content
     $ etcdctl ls / --recursive
     $ etcdctl get /test/data
