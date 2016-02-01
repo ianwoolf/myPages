@@ -1,7 +1,7 @@
 +++
 date = "2016-02-01T16:30:09+08:00"
 draft = true
-title = "【原创】etcdapi"
+title = "【原创】etcd-api"
 
 +++
 Tutorial Series. This tutorial is part 4 of 9 in the series:[Getting Started with CoreOS](https://www.digitalocean.com/community/tutorials/how-to-use-etcdctl-and-etcd-coreos-s-distributed-key-value-store)
@@ -17,6 +17,11 @@ Tutorial Series. This tutorial is part 4 of 9 in the series:[Getting Started wit
     $ curl http://172.17.0.135:2379/v2/keys/?recursive=true
     {"action":"get","node":{"dir":true,"nodes":[{"key":"/test","dir":true,"nodes":[{"key":"/test/data","value":"content4","modifiedIndex":12,"createdIndex":11}],"modifiedIndex":8,"createdIndex":8},{"key":"/test2","dir":true,"nodes":[{"key":"/test2/1","value":"1","modifiedIndex":29,"createdIndex":29},{"key":"/test2/r1","dir":true,"nodes":[{"key":"/test2/r1/1","value":"1","modifiedIndex":31,"createdIndex":31}],"modifiedIndex":30,"createdIndex":30}],"modifiedIndex":28,"createdIndex":28}]}}
 
+    $ curl -X PUT http://172.17.0.135:2379/v2/keys/test2/1  -d value=curl   # updateorcreate
+    {"action":"set","node":{"key":"/test2/1","value":"curl","modifiedIndex":32,"createdIndex":32},"prevNode":{"key":"/test2/1","value":"1","modifiedIndex":29,"createdIndex":29}}
+
+    $ curl -X DELETE http://172.17.0.135:2379/v2/keys/test2/2    
+    {"action":"delete","node":{"key":"/test2/2","modifiedIndex":34,"createdIndex":33},"prevNode":{"key":"/test2/2","value":"curl","modifiedIndex":33,"createdIndex":33}}
 #### 状态命令
     $ curl -L http://172.17.0.135:2379/version
     {"etcdserver":"2.2.3","etcdcluster":"2.2.0"}
