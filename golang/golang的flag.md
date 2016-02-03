@@ -1,7 +1,7 @@
 +++
 date = "2016-01-07T23:05:09+08:00"
 draft = true
-title = "【原创】golang 的flag"
+title = "【原创】golang 的flag -- 标准类型和自定义类型"
 
 +++
 ### golang 的flag
