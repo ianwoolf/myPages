@@ -22,6 +22,7 @@ flag可以通过自定义Usage()的方式来自定义usage的输出。注意`fla
 - `Var`可以定义自定义变量（如[]string）等的flag参数，但是无法定义默认值。
 
 两种方式的代码如下：
+
     type FlagParam []string
 
     func (f *FlagParam) String() string {
