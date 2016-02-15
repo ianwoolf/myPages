@@ -1,5 +1,5 @@
 +++
-date = "2016-1-10T16:30:09+08:00"
+date = "2016-01-10T16:30:09+08:00"
 draft = true
 title = "【原创】reflect func in golang (get func by name)"
 
