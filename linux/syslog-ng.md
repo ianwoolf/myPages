@@ -77,3 +77,9 @@ log { source(s_nginx);  destination(d_log_access);};
 1. http://www.cnblogs.com/lexus/archive/2012/04/24/2467841.html
 
 2. http://www.linuxfly.org/read.php?171
+
+3. http://wangqiaowqo.iteye.com/blog/2085352
+
+4. http://ssmax.net/archives/607.html
+
+5. http://bbotte.blog.51cto.com/6205307/1614453
