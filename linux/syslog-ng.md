@@ -53,10 +53,12 @@ destination d_log_access {file("/opt/logs/nginx/log" perm(0755) template(t_templ
 log { source(s_nginx);  destination(d_log_access);};
 
 ## 配置
-建议看看文档，syslog-ng很灵活。源和目的支持socket流、tcp、udp、mkpipo、file等，还可以配置策略和流程，比如含有error的日志发给程序处理，把日志直接发到kafka等。
+建议看看文档，syslog-ng很灵活。源和目的支持socket流、tcp、udp、pipo、file等，还可以配置策略和流程，比如含有error的日志发给程序处理，把日志直接发到kafka等。
+
+简单配置例子：
 
 	source s_nginx {
-        #file ("/proc/kmsg" program_override("kernel: "));
+        #pipo ("/proc/kmsg" program_override("kernel: "));
         file("/opt/logs/nginx/access/log.pipe");
         #unix-stream ("/dev/log");
         #internal();
@@ -69,3 +71,9 @@ log { source(s_nginx);  destination(d_log_access);};
 	destination d_log_access {file("/opt/logs/nginx/log" perm(0755) template(t_templ)); };
 
 	log { source(s_nginx);  destination(d_log_access);};
+
+## 入门资料
+
+1. http://www.cnblogs.com/lexus/archive/2012/04/24/2467841.html
+
+2. http://www.linuxfly.org/read.php?171
