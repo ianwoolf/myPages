@@ -68,14 +68,14 @@ title = "【原创】tinc在各种平台上的搭建及配置"
     sudo apt-get install tinc
 
 其他和linux一样，内网ip不重复就可以。
-## mac还没通，先记录
-    brew install tuntap
-    sudo kextload /Library/Extensions/tap.kext
-    sudo kextload /Library/Extensions/tun.kext
-
 
 ## macOS上配置tinc
 这个测试了很久，闲话不说，上东西
+安装
+
+    brew install tuntap
+    sudo kextload /Library/Extensions/tap.kext
+    sudo kextload /Library/Extensions/tun.kext
 
 
 tinc.conf
