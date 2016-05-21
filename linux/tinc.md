@@ -74,3 +74,43 @@ title = "【原创】tinc在各种平台上的搭建及配置"
     sudo kextload /Library/Extensions/tun.kext
 
 
+## macOS上配置tinc
+这个测试了很久，闲话不说，上东西
+
+
+tinc.conf
+
+    ConnectTo = zzzs
+    Port=756
+    Name = mac
+    PrivateKeyFile = /usr/local/etc/tinc/xxx/rsa_key.priv
+    Device = /dev/tap0
+    
+tinc-up
+
+    ifconfig $INTERFACE 10.3.0.3 netmask 255.255.255.0
+    
+tinc-down
+
+    ifconfig $INTERFACE down
+    
+host/client
+
+    Subnet=10.3.0.3/32
+    Compression=9
+
+    -----BEGIN RSA PUBLIC KEY-----
+    -----END RSA PUBLIC KEY-----
+命令
+
+    停止
+    for pid in `ps aux|grep tinc|grep -v grep|awk '{print $2}'\`;do sudo kill -9 $pid ;done
+    启动
+    sudo tincd -c /usr/local/etc/tinc/zzzvpn -D --debug --pidfile=./tinc.pid --logfile=./tinc.log
+    
+注意：  
+
+- Device
+- 配置完成后，`tincd -n zzzvpn -K` 生成公私钥
+- 生成的host，要拷给server
+- 启动后，可以直接ssh到集群任意机器
