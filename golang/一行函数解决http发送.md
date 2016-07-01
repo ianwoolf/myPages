@@ -109,20 +109,20 @@ http中 form|raw的post，其实只是一个头文件的区别，本质都是bod
 	}
 
     func GetToJson(url string, result interface{}) (err error) {
-    getQuery := &HttpQuery{
-        Url:     url,
-        Timeout: 5,
-        Method:  "GET",
-    }
-    err = getQuery.DoQuery()
-    if err != nil {
-        fmt.Println("failed when get form query, url:", getQuery.Url, " result body:", string(getQuery.Result.Body))
+        getQuery := &HttpQuery{
+            Url:     url,
+            Timeout: 5,
+            Method:  "GET",
+        }
+        err = getQuery.DoQuery()
+        if err != nil {
+            fmt.Println("failed when get form query, url:", getQuery.Url, " result body:", string(getQuery.Result.Body))
+            return
+        }
+        if err = json.Unmarshal(getQuery.Result.Body, result); err != nil {
+            fmt.Println("unmarshal dc catalog/services error, url:", getQuery.Url, " result:", string(getQuery.Result.Body))
+        }
         return
     }
-    if err = json.Unmarshal(getQuery.Result.Body, result); err != nil {
-        fmt.Println("unmarshal dc catalog/services error, url:", getQuery.Url, " result:", string(getQuery.Result.Body))
-    }
-    return
-}
 
 
