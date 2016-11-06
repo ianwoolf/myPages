@@ -5,7 +5,7 @@ title = "【分析】hold住百万qps"
 
 +++
 
-ndling 1 Million Requests per Minute with Go](http://marcio.io/2015/07/handling-1-million-requests-per-minute-with-golang/)。
+原文是一个大牛的博客 [Handling 1 Million Requests per Minute with Go](http://marcio.io/2015/07/handling-1-million-requests-per-minute-with-golang/)。
 
 原文展示了一个demo，从简单的处理http请求逐渐演进到高qps的一个历程。
 
